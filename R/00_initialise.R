@@ -13,19 +13,25 @@ setwd(working_directory)
 
 # load library programs ---------------
 library(tidyverse)
-library(magrittr)
-library(vroom)
-library(httr)
-library(XML)
-library(rvest)
-library(janitor)
-library(odbc)
-library(DBI)
-library(naniar)
-library(caret)
-library(randomForest)
-library(Metrics)
-library(Hmisc)
+library(readxl)
 
-# clear workspace ------
+# import and clean excel data ----------
+data <- data.frame(read_excel("data/data.xlsx"))
+
+data$year <- as.character(data$year)
+data$date <- paste(data$year, data$month, "01", sep="-")
+data$date <- as.Date(data$date, "%Y-%b-%d")
+
+drops <- c("year", "month")
+data <- data[, !(names(data) %in% drops)]
+
+data <- data %>%
+  select(date, everything())
+
+data$prev_preg_loss[data$prev_preg_loss == "N"] <- 0
+data$prev_preg_loss[data$prev_preg_loss == "Y"] <- 1
+data$prev_preg_loss[data$prev_preg_loss == "N/A"] <- NA
+
+# end ------
+save(data, file = "data/data.rda")
 rm(list = ls())
