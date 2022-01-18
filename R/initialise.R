@@ -26,6 +26,7 @@ drops <- c("year", "month")
 data <- data[, !(names(data) %in% drops)]
 data <- data %>% select(date, everything())
 data <- data[order(data$date),]
+row.names(data) <- NULL
 
 data$prev_preg_loss[data$prev_preg_loss == "N"] <- 0
 data$prev_preg_loss[data$prev_preg_loss == "Y"] <- 1

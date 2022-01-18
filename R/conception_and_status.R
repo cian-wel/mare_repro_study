@@ -1,7 +1,7 @@
 # about ---------
 # conception_and_status.R
 #
-# this file initialises the workspace
+# this file looks at conception and status
 
 # clear workspace ------
 rm(list = ls())
